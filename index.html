@@ -1,2 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gold Box</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>Gold Box Game</title><link rel="icon" href="./assets/favicon.ico" type="image/x-icon"/><script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','730830449557162');fbq('track','PageView');</script><noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=730830449557162&ev=PageView&noscript=1"/></noscript><style>html,body{margin:0;padding:0;height:100%;overflow:hidden;background:#000}.landing{position:relative;width:100vw;height:100vh;overflow:hidden}.landing-bg{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;z-index:0}.boxes{position:absolute;top:55%;left:50%;transform:translate(-50%,-50%);display:grid;grid-template-columns:repeat(2,160px);grid-template-rows:repeat(3,160px);gap:10px;z-index:2}.box{position:relative;width:160px;height:160px;background:url('./assets/gold-box.webp') center/contain no-repeat;animation:shine 1s infinite alternate;border-radius:10px;transition:transform .3s}.box::before{content:"";position:absolute;top:55%;left:50%;transform:translate(-50%,-50%);width:80px;height:80px;background:radial-gradient(circle,rgba(255,255,180,.8) 0%,transparent 80%);border-radius:50%;animation:blinkCenter 2s infinite ease-in-out;pointer-events:none}.box.zoom{animation:zoom .4s infinite alternate,shine 2s infinite alternate}.box.loss{animation:lossEffect .5s}.box.win{animation:winEffect .5s}.box:nth-child(1){grid-column:span 2;justify-self:center}.play-button{position:absolute;left:50%;transform:translateX(-50%);bottom:20px;z-index:2}.play-button img,.action-button img{width:300px;max-width:80vw;height:auto}.popup{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);display:flex;justify-content:center;align-items:center;flex-direction:column;opacity:0;transform:scale(.8);pointer-events:none;z-index:3}.popup.show{pointer-events:auto;animation:popupBounce .8s ease forwards}.result{width:320px;max-width:90vw;margin-bottom:20px}.action-button{margin-top:25px}@keyframes shine{from{filter:brightness(1)}to{filter:brightness(1.2)}}@keyframes blinkCenter{0%,100%{opacity:.8;transform:translate(-50%,-50%) scale(1)}50%{opacity:0;transform:translate(-50%,-50%) scale(2)}}@keyframes zoom{from{transform:scale(1)}to{transform:scale(1.05)}}@keyframes lossEffect{0%{transform:scale(1)}50%{transform:scale(1.4) rotate(10deg)}100%{transform:scale(1)}}@keyframes winEffect{0%{transform:scale(1)}50%{transform:scale(1.4) rotate(-10deg)}100%{transform:scale(1)}}@keyframes popupBounce{0%{transform:scale(.8);opacity:0}50%{transform:scale(1.1);opacity:1}70%{transform:scale(.95)}100%{transform:scale(1);opacity:1}}</style></head><body><div class="landing"><img class="landing-bg" src="./assets/bg2.webp" alt="BG"><div class="boxes"><div class="box"></div><div class="box"></div><div class="box"></div><div class="box"></div><div class="box"></div></div><div class="play-button"><img id="play-button" src="./assets/play-button.gif" alt="Play"/></div><div class="popup" id="popup"><img class="result" id="resultImg" src="" alt="Result"/><div class="action-button" id="actionButton"></div></div></div><audio id="boomSound1" src="./assets/boom-sound1.mp3" preload="auto"></audio><audio id="boomSound2" src="./assets/boom-sound2.mp3" preload="auto"></audio><audio id="winSound1" src="./assets/win-sound1.mp3" preload="auto"></audio><audio id="winSound2" src="./assets/win-sound2.mp3" preload="auto"></audio><audio id="bgMusic" src="./assets/bg-music.mp3" loop preload="auto"></audio><script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script><script>const b=document.querySelectorAll('.box'),p=document.getElementById('play-button'),q=document.getElementById('popup'),r=document.getElementById('resultImg'),a=document.getElementById('actionButton'),o=document.getElementById('boomSound1'),z=document.getElementById('boomSound2'),w=document.getElementById('winSound1'),u=document.getElementById('winSound2'),m=document.getElementById('bgMusic'),s=new Audio('./assets/button-click.mp3');let c=0;document.addEventListener('click',()=>{m.volume=.3;m.paused&&m.play()});function j(){o.currentTime=0;o.play();z.currentTime=0;z.play()}function k(){w.currentTime=0;w.play();u.currentTime=0;u.play()}function l(){s.currentTime=0;s.play()}function e(){b.forEach(x=>{x.style.backgroundImage="url('./assets/gold-box.webp')";x.classList.remove('loss','win','zoom');x.style.pointerEvents='none'})}p.addEventListener('click',()=>{l();c++;p.style.display='none';b.forEach(x=>{x.classList.add('zoom');x.style.pointerEvents='auto'});fbq('trackCustom','Play',{content_name:'Play Button Click'})});b.forEach(x=>{x.addEventListener('click',()=>{l();b.forEach(y=>{y.classList.remove('zoom');y.style.pointerEvents='none'});if(c===1){x.classList.add('loss');setTimeout(()=>{x.style.backgroundImage="url('./assets/bomb.gif')";j()},700);setTimeout(()=>{r.src='./assets/thank-you.webp';a.innerHTML='<button id="try-again-btn" style="background:none;border:none;padding:0;"><img src="./assets/try-again-button.gif" alt="Try Again"/></button>';q.style.display='flex';requestAnimationFrame(()=>q.classList.add('show'));n();document.getElementById('try-again-btn').addEventListener('click',()=>{fbq('trackCustom','PlayAgain',{content_name:'Try Again Click'})})},2000)}else if(c===2){e();x.classList.add('win');setTimeout(()=>{x.style.backgroundImage="url('./assets/star.gif')";k()},700);setTimeout(()=>{r.src='./assets/you-get-2usd.webp';a.innerHTML='<a id="claim-button" href="https://t.me/m/8efXjOmkY2U9" target="_blank"><img src="./assets/claim-button.gif" alt="Claim"/></a>';q.style.display='flex';requestAnimationFrame(()=>q.classList.add('show'));f();document.getElementById('claim-button').addEventListener('click',()=>{fbq('track','Purchase',{value:2.00,currency:'USD',content_name:'Claim Button Click'})})},2000)}})});a.addEventListener('click',()=>{l();q.classList.remove('show');setTimeout(()=>q.style.display='none',500);e();if(c===1){p.style.display='block'}});function n(){confetti({particleCount:40,spread:80,colors:['#fff'],origin:{y:.5}})}function f(){let d=!0;function h(){if(!d)return;confetti({particleCount:70,spread:360,startVelocity:40,ticks:80,origin:{y:.5}});setTimeout(h,2000)}h();a.addEventListener('click',()=>{d=!1})}</script></body></html>
+  <!-- Favicon -->
+  <link rel="icon" href="./assets/favicon.ico" type="image/x-icon" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Google Analytics & Meta Pixel -->
+  <!--<script async src="https://www.googletagmanager.com/gtag/js?id=G-EGM8QP3196"></script>-->
+  <!--<script>-->
+  <!--  window.dataLayer = window.dataLayer || [];-->
+  <!--  function gtag(){dataLayer.push(arguments);}-->
+  <!--  gtag('js', new Date());-->
+  <!--  gtag('config', 'G-EGM8QP3196');-->
+  <!--</script>-->
+
+  
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '749550777597954');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=749550777597954&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+  
+  
+  
+  
+  
+  
+</head>
+
+<body>
+  <!-- ✅ Loading Spinner -->
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- ✅ Game Content -->
+  <div class="landing hidden" id="landing">
+    <img class="landing-bg" src="./assets/bg2.webp" alt="Background">
+
+    <div class="boxes" role="group" aria-label="Gold Boxes">
+      <div class="box" role="button" tabindex="0" aria-label="Box 1"></div>
+      <div class="box" role="button" tabindex="0" aria-label="Box 2"></div>
+      <div class="box" role="button" tabindex="0" aria-label="Box 3"></div>
+      <div class="box" role="button" tabindex="0" aria-label="Box 4"></div>
+      <div class="box" role="button" tabindex="0" aria-label="Box 5"></div>
+    </div>
+
+    <div class="play-button">
+      <img id="play-button" src="./assets/play-button.gif" alt="Play Now" />
+    </div>
+
+    <div class="popup" id="popup">
+      <img class="result" id="resultImg" src="" alt="Result" />
+      <div class="action-button" id="actionButton"></div>
+    </div>
+  </div>
+
+  <!-- ✅ Sounds -->
+  <audio id="boomSound1" src="./assets/boom-sound1.mp3" preload="auto"></audio>
+  <audio id="boomSound2" src="./assets/boom-sound2.mp3" preload="auto"></audio>
+  <audio id="winSound1" src="./assets/win-sound1.mp3" preload="auto"></audio>
+  <audio id="winSound2" src="./assets/win-sound2.mp3" preload="auto"></audio>
+  <audio id="bgMusic" src="./assets/bg-music.mp3" loop preload="auto"></audio>
+
+  <!-- ✅ Confetti & JS -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js" defer></script>
+  <script src="game.js" defer></script>
+</body>
+</html>
